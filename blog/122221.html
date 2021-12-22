@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+    <title>Frank Giddens | Blog Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	</head>
+	<body>
+		<nav class="bg-dark navbar navbar-dark navbar-expand px-2">
+			<a class="navbar-brand" href="../index.html">Frank Giddens</a>
+			<ul class="nav">
+				<li class="nav-item">
+					<a class="nav-link text-light" href="../resume.html">Resume</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-light" href="../projects.html">Personal Projects</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-light" href="./home.html">Blog</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-light" href="../contact.html">Contact Me</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="container">
+			<div class="row">
+				<div class="col-2"></div>
+					<div class="col-8">
+						<div class="card my-2 p-2">
+							<h1 class="card-title">A Case for High Gas Throughput in Smart Contract Networks</h1>
+							<h3 class="card-subtitle h6">December 22, 2021</h3>
+							<hr/>
+							<div class="card-body">
+								<p>In Solidity (the programming language of smart contracts) it is possible to create and deploy smart contracts programmatically and to make transaction calls between the new and old version, therefore if a model was created to mimic a fork bomb, in which a contract would create copies of itself, pass along it's internal gas fee paying cryptocurrency to it's children along with the attackers wallet address, and call the same function in it's children to repeat the process. This would be connected to a web3 application that would reabsorb the currency of any stalled contracts and redeploy the original contract in a new address. This should lead to the maximum number of transactions of the network being used by the deployed smart contracts, thus preventing legitimate smart contracts from operating. Repeat for a long enough period of time and legitimate smart contact users will redeploy to another network, at which time an attacker can stop the attack and allow the network to languish from lack of users. I am interested in if anyone knows there to be any way to prevent this sort of attack, but it certainly seems significantly cheaper than a 51% attack.</p>
+							</div>
+						</div>
+					</div>
+				<div class="col-2"></div>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	</body>
+</html>
