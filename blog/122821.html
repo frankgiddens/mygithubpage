@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+    <title>Frank Giddens | Blog Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	</head>
+	<body>
+		<nav class="bg-dark navbar navbar-dark navbar-expand px-2">
+			<a class="navbar-brand" href="../index.html">Frank Giddens</a>
+			<ul class="nav">
+				<li class="nav-item">
+					<a class="nav-link text-light" href="../resume.html">Resume</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-light" href="../projects.html">Personal Projects</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-light" href="./home.html">Blog</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-light" href="../contact.html">Contact Me</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="container">
+			<div class="row">
+				<div class="col-2"></div>
+					<div class="col-8">
+						<div class="card my-2 p-2">
+							<h1 class="card-title">Asset Desecuritization: A Potential Use Case For NFTs</h1>
+							<h3 class="card-subtitle h6">December 28, 2021</h3>
+							<hr/>
+							<div class="card-body">
+								<p>A security is defined as an asset that is both fungible and negotiable in value. This is why Bitcoin is treated as a security, it both has an increasing number of coin and a value that is negotiable as it's primary purpose. In the United States securities are overseen by the SEC and are beholden to what some would consider to be an excessive amount of bureaucratic red tape that is less democratic than ideal in certain aspects. As such DeFi (Decentralized Finance) products have been developed for the blockchain that allows users access to both similar products that they otherwise would not be able to access, like higher yield staking, as well as novel financial products, like the flash loan.</p>
+								<p>A sticking point that is becoming a larger problem is the legality of DeFi products is accessing these securities without being overburdened by the bureaucracy, ideally then there would no longer be the same issues if an asset were made to no longer be a security. One potential method of removing an asset from classification as a security that can be easily done by an exchange is to wrap securities in an NFT in a non negotiable method, such as trading one wrapped coin for one unwrapped coin. The following is software for controlling these wrapped coins.</p>
+								<code><pre>
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+
+contract CoinWrapper is ERC1155{
+	uint256 counter;
+	mapping(address=>uint256) coinId;
+	mapping(uint256=>address) tokenAddress;
+	function addToken(address token) public {
+		require(coinId[token] == 0, "Token already added");
+		_mint(address(this), counter, IERC20(token).totalSupply(), "");
+		coinId[token] = counter;
+		tokenAddress[counter] = token;
+		counter = counter + 1;
+	}
+	function unwrapToken(address token, uint256 amount) public {
+		require(balanceOf(msg.sender, coinId[token]) >= amount, "Insufficient tokens");
+		_safeTransferFrom(msg.sender, address(this), coinId(token), amount);
+		IERC20(token).transferFrom(address(this), msg.sender, amount);
+	}
+	function wrapToken(address token, uint256 amount) public {
+		require(IERC20(token).balanceOf(msg.sender) >= amount, "Insufficient tokens");
+		if(coinId[token] == 0){
+			addToken(token);
+		}
+		IERC20(token).transfer(address(this), amount);
+		_safeTransferFrom(address(this), msg.sender, coinId(token), amount);
+	}
+	constructor() ERC1155("https://dex.example/api/token/{id}.json") {
+		_mint(address(this), 0, 1, "");
+		counter = 1;
+	}
+}									
+								</pre></code>
+								<p>Code for educational purposes only.</p>
+								<p>I am a software engineer, not a legal professional. Talk to one before attempting to circumvent your government.</p>
+							</div>
+						</div>
+					</div>
+				<div class="col-2"></div>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	</body>
+</html>
